@@ -106,7 +106,7 @@ spec:
   params:
     - name: DEPLOYMENT
       type: string
-      default: nationalparks
+      default: spring-petclinic
   stepTemplate:
     env:
       - name: POD_NAMESPACE
@@ -124,7 +124,7 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: nationalparks-pipeline
+  name: spring-pipeline
 spec:
   params:
     - default: spring-petclinic
