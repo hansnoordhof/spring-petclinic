@@ -2,7 +2,7 @@
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerTemplate
 metadata:
-  name: spring-petclinic
+  name: spring
 spec:
   params:
     - name: git-revision
@@ -16,8 +16,8 @@ spec:
       kind: PipelineRun
       metadata:
         labels:
-          tekton.dev/pipeline: nationalparks-pipeline
-        name: spring-petclinic-deploy-$(uid)
+          tekton.dev/pipeline: spring-pipeline
+        name: spring-deploy-$(uid)
       spec:
         params:
           - name: APP_NAME
@@ -27,7 +27,7 @@ spec:
           - name: APP_GIT_REVISION
             value: $(tt.params.git-revision)
         pipelineRef:
-          name: spring-petclinic-pipeline
+          name: spring-pipeline
         workspaces:
           - name: app-source
             persistentVolumeClaim:
@@ -38,7 +38,7 @@ spec:
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerBinding
 metadata:
-  name: spring-petclinic
+  name: spring
 spec:
   params:
     - name: git-repo-url
@@ -51,14 +51,14 @@ spec:
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: EventListener
 metadata:
-  name: spring-petclinic
+  name: spring
 spec:
   serviceAccountName: pipeline
   triggers:
     - bindings:
-        - ref: spring-petclinic
+        - ref: spring
       template:
-        name: spring-petclinic
+        name: spring
 ---
 apiVersion: route.openshift.io/v1
 kind: Route
@@ -66,12 +66,12 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: EventListener
     app.kubernetes.io/part-of: Triggers
-    eventlistener: spring-petclinic
-  name: el-spring-petclinic
+    eventlistener: spring
+  name: el-spring
 spec:
   port:
     targetPort: 8080
   to:
     kind: Service
-    name: el-spring-petclinic
+    name: el-spring
     weight: 100
