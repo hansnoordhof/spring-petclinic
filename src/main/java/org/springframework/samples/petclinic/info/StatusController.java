@@ -14,7 +14,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class StatusController {
 
 	@RequestMapping(value = "/status/check", method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
-	@PerformanceLoggingEntryPoint
 	public ResponseEntity checkStatus() {
 		return Response.statusWithBody(HttpStatus.OK, "Status is up!");
 	}

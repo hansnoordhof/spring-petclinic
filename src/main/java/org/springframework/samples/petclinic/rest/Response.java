@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
 
 public class Response {
+
 	private Response() {
 	}
 
@@ -17,10 +18,13 @@ public class Response {
 	}
 
 	public static <T> ResponseEntity<T> status(HttpStatus status) {
-		return statusWithBody(status, (Object)null);
+		return statusWithBody(status, null);
 	}
 
 	public static <T> ResponseEntity<T> statusWithBody(HttpStatus status, T body) {
-		return ((BodyBuilder)((BodyBuilder)ResponseEntity.status(status).header("Cache-Control", new String[]{"no-cache, no-store, must-revalidate, max-age=0"})).header("Pragma", new String[]{"no-cache"})).body(body);
+		return ((BodyBuilder) ((BodyBuilder) ResponseEntity.status(status).header("Cache-Control",
+				new String[] { "no-cache, no-store, must-revalidate, max-age=0" })).header("Pragma",
+						new String[] { "no-cache" })).body(body);
 	}
+
 }
